@@ -1,0 +1,4 @@
+steps.txt
+.vscode/
+server/.env*
+server/node_modules
