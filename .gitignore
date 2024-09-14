@@ -1,4 +1,4 @@
-steps.txt
+/steps
 .vscode/
 server/.env*
 server/node_modules
