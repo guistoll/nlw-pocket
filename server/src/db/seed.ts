@@ -8,7 +8,7 @@ async function seed() {
   await db.delete(goalCompletions)
   await db.delete(goals)
 
-  const [goal1, goal2] = await db
+  const [goal1, goal2, goal3, goal4] = await db
     .insert(goals)
     .values([
       {
@@ -20,8 +20,12 @@ async function seed() {
         desiredWeeklyFrequency: 2,
       },
       {
-        title: faker.lorem.words(3),
+        title: faker.lorem.words(2),
         desiredWeeklyFrequency: 1,
+      },
+      {
+        title: faker.lorem.words(2),
+        desiredWeeklyFrequency: 3,
       },
     ])
     .returning()
@@ -29,8 +33,23 @@ async function seed() {
   const startOfWeek = dayjs().startOf('week')
 
   await db.insert(goalCompletions).values([
-    { goalId: goal1.id, createdAt: startOfWeek.toDate() },
-    { goalId: goal2.id, createdAt: startOfWeek.add(1, 'day').toDate() },
+    { goalId: goal1.id, createdAt: startOfWeek.add(7, 'hour').toDate() },
+    {
+      goalId: goal4.id,
+      createdAt: startOfWeek.add(1, 'day').add(9, 'hour').toDate(),
+    },
+    {
+      goalId: goal1.id,
+      createdAt: startOfWeek.add(2, 'day').add(8, 'hour').toDate(),
+    },
+    {
+      goalId: goal2.id,
+      createdAt: startOfWeek.add(2, 'day').add(14, 'hour').toDate(),
+    },
+    {
+      goalId: goal4.id,
+      createdAt: startOfWeek.add(2, 'day').add(12, 'hour').toDate(),
+    },
   ])
 }
 

@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1726192327647,
-      "tag": "0000_omniscient_black_queen",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1726243756996,
-      "tag": "0001_low_lady_deathstrike",
+      "when": 1726622316019,
+      "tag": "0000_brief_surge",
       "breakpoints": true
     }
   ]
