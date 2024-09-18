@@ -23,6 +23,8 @@ export function WeeklySummary({ summary }: WeeklySummaryProps) {
     (summary.completed * 100) / summary.total
   )
 
+  const galsPerDaySummary = summary.goalsPerDay || []
+
   return (
     <main className="max-w-[540px] py-10 px-5 mx-auto flex flex-col gap-6">
       <div className="flex items-center justify-between">
@@ -64,7 +66,7 @@ export function WeeklySummary({ summary }: WeeklySummaryProps) {
       <div className="space-y-6">
         <h2 className="text-xl font-medium">Sua semana</h2>
 
-        {Object.entries(summary.goalsPerDay).map(([date, goals]) => {
+        {Object.entries(galsPerDaySummary).map(([date, goals]) => {
           const weekDay = dayjs(date).format('dddd')
           const parsedDate = dayjs(date).format('D[ de ]MMM')
 
