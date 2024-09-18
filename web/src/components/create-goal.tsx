@@ -30,6 +30,8 @@ type CreateGoalSchema = z.infer<typeof createGoalSchema>
 export function CreateGoal() {
   const queryClient = useQueryClient()
 
+  const desiredWeeklyFrequencyIcon = ['🥱', '🙂', '😎', '😜', '🤨', '🤯', '🔥']
+
   const {
     register,
     handleSubmit,
@@ -107,7 +109,7 @@ export function CreateGoal() {
               <Controller
                 control={control}
                 name="desiredWeeklyFrequency"
-                defaultValue={5}
+                defaultValue={3}
                 render={({ field }) => {
                   return (
                     <RadioGroup
@@ -121,9 +123,19 @@ export function CreateGoal() {
                           <RadioGroupItem key={i} value={frequency}>
                             <RadioGroupIndicator />
                             <span className="text-zinc-300 text-sm font-medium leading-none">
-                              {frequency}x na semana
+                              {Number(frequency) < 7 ? (
+                                <span>{frequency} x na semana</span>
+                              ) : (
+                                <span>Todos os dias da semana</span>
+                              )}
                             </span>
-                            <span className="text-lg leading-none">🥱</span>
+                            <span className="text-lg leading-none">
+                              {
+                                desiredWeeklyFrequencyIcon[
+                                  Number(frequency) - 1
+                                ]
+                              }
+                            </span>
                           </RadioGroupItem>
                         )
                       })}
