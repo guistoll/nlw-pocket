@@ -8,6 +8,9 @@ import type { GetSummaryResponse } from '../http/get-summary'
 import dayjs from 'dayjs'
 import ptBR from 'dayjs/locale/pt-BR'
 import { PendingGoals } from './pending-goals'
+import { deleteGoalCompletion } from '../http/delete-goal-completion'
+import { toast } from 'sonner'
+import { useQueryClient } from '@tanstack/react-query'
 
 dayjs.locale(ptBR)
 
@@ -16,14 +19,28 @@ interface WeeklySummaryProps {
 }
 
 export function WeeklySummary({ summary }: WeeklySummaryProps) {
+  const queryClient = useQueryClient()
+
   const fromDate = dayjs().startOf('week').format('D[ de ]MMM')
   const toDate = dayjs().endOf('week').format('D[ de ]MMM')
+  const galsPerDaySummary = summary.goalsPerDay || []
 
   const completedPercentage = Math.round(
     (summary.completed * 100) / summary.total
   )
 
-  const galsPerDaySummary = summary.goalsPerDay || []
+  async function handleDeleteGoalCompletion(goalId: string) {
+    try {
+      await deleteGoalCompletion({ goalId })
+
+      queryClient.invalidateQueries({ queryKey: ['pending-goals'] })
+      queryClient.invalidateQueries({ queryKey: ['summary'] })
+
+      toast.success('Meta removida com sucesso!')
+    } catch {
+      toast.success('Erro ao desfazer meta!')
+    }
+  }
 
   return (
     <main className="max-w-[540px] py-10 px-5 mx-auto flex flex-col gap-6">
@@ -88,6 +105,13 @@ export function WeeklySummary({ summary }: WeeklySummaryProps) {
                         Você completou "
                         <span className="text-zinc-100">{goal.title}</span>" às{' '}
                         <span className="text-zinc-100">{parsedTime}</span>
+                        <button
+                          className="text-zinc-500 text-xs underline underline-offset-2 ml-2"
+                          onClick={() => handleDeleteGoalCompletion(goal.id)}
+                          type="button"
+                        >
+                          Desfazer
+                        </button>
                       </span>
                     </li>
                   )
