@@ -38,7 +38,7 @@ export function WeeklySummary({ summary }: WeeklySummaryProps) {
 
       toast.success('Meta removida com sucesso!')
     } catch {
-      toast.success('Erro ao desfazer meta!')
+      toast.error('Erro ao desfazer meta!')
     }
   }
 

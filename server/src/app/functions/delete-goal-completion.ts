@@ -9,10 +9,22 @@ interface DeleteGoalCompletionRequest {
 export async function deleteGoalCompletion({
   id,
 }: DeleteGoalCompletionRequest) {
-  const deletedGoalCompletion = await db
-    .delete(goalCompletions)
-    .where(eq(goalCompletions.id, id))
-    .returning()
+  try {
+    const result = await db
+      .delete(goalCompletions)
+      .where(eq(goalCompletions.id, id))
+      .returning()
 
-  return deletedGoalCompletion.length
+    if (result.length === 0) {
+      return { success: false, message: 'Goal completion not found' }
+    }
+
+    return { success: true, message: 'Goal completion deleted successfully' }
+  } catch (error) {
+    console.error('Error deleting goal completion:', error)
+    return {
+      success: false,
+      message: 'An error occurred while deleting the goal completion',
+    }
+  }
 }
