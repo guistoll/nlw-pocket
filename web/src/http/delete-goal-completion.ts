@@ -11,6 +11,6 @@ export async function deleteGoalCompletion({ goalId }: DeleteGoalRequest) {
   })
 
   if (!response.ok) {
-    throw new Error('Error while deleting the goal completion')
+    throw new Error('Error while deleting the goal completion.')
   }
 }

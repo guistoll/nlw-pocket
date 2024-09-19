@@ -12,8 +12,6 @@ import { deleteGoalCompletion } from '../http/delete-goal-completion'
 import { toast } from 'sonner'
 import { useQueryClient } from '@tanstack/react-query'
 
-dayjs.locale(ptBR)
-
 interface WeeklySummaryProps {
   summary: GetSummaryResponse['summary']
 }
@@ -21,8 +19,8 @@ interface WeeklySummaryProps {
 export function WeeklySummary({ summary }: WeeklySummaryProps) {
   const queryClient = useQueryClient()
 
-  const fromDate = dayjs().startOf('week').format('D[ de ]MMM')
-  const toDate = dayjs().endOf('week').format('D[ de ]MMM')
+  const fromDate = dayjs().startOf('week').format('MMM D')
+  const toDate = dayjs().endOf('week').format('MMM D')
   const galsPerDaySummary = summary.goalsPerDay || []
 
   const completedPercentage = Math.round(
@@ -55,7 +53,7 @@ export function WeeklySummary({ summary }: WeeklySummaryProps) {
         <DialogTrigger asChild>
           <Button size="sm">
             <Plus className="size-4" />
-            Cadastrar meta
+            Register goal
           </Button>
         </DialogTrigger>
       </div>
@@ -67,10 +65,10 @@ export function WeeklySummary({ summary }: WeeklySummaryProps) {
 
         <div className="flex items-center justify-between text-xs text-zinc-400">
           <span>
-            Você completou{' '}
-            <span className="text-zinc-100">{summary.completed}</span> de{' '}
-            <span className="text-zinc-100">{summary.total}</span> metas nessa
-            semana.
+            You completed{' '}
+            <span className="text-zinc-100">{summary.completed}</span> out of{' '}
+            <span className="text-zinc-100">{summary.total}</span> goals this
+            week.
           </span>
           <span>{completedPercentage}%</span>
         </div>
@@ -81,11 +79,11 @@ export function WeeklySummary({ summary }: WeeklySummaryProps) {
       <PendingGoals />
 
       <div className="space-y-6">
-        <h2 className="text-xl font-medium">Sua semana</h2>
+        <h2 className="text-xl font-medium">Your week</h2>
 
         {Object.entries(galsPerDaySummary).map(([date, goals]) => {
           const weekDay = dayjs(date).format('dddd')
-          const parsedDate = dayjs(date).format('D[ de ]MMM')
+          const parsedDate = dayjs(date).format('MMM D')
 
           return (
             <div className="space-y-4" key={date}>
@@ -102,15 +100,15 @@ export function WeeklySummary({ summary }: WeeklySummaryProps) {
                     <li className="flex items-center gap-2" key={goal.id}>
                       <CheckCircle2 className="size-4 text-pink-500" />
                       <span className="text-sm text-zinc-400">
-                        Você completou "
-                        <span className="text-zinc-100">{goal.title}</span>" às{' '}
+                        You completed "
+                        <span className="text-zinc-100">{goal.title}</span>" at{' '}
                         <span className="text-zinc-100">{parsedTime}</span>
                         <button
                           className="text-zinc-500 text-xs underline underline-offset-2 ml-2"
                           onClick={() => handleDeleteGoalCompletion(goal.id)}
                           type="button"
                         >
-                          Desfazer
+                          Undo
                         </button>
                       </span>
                     </li>

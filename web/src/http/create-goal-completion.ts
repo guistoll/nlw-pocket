@@ -16,6 +16,6 @@ export async function createGoalCompletion({
   })
 
   if (!response.ok) {
-    throw new Error('Error while creating the goal completion')
+    throw new Error('Error while creating the goal completion.')
   }
 }

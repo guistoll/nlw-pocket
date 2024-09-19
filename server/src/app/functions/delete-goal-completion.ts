@@ -16,15 +16,15 @@ export async function deleteGoalCompletion({
       .returning()
 
     if (result.length === 0) {
-      return { success: false, message: 'Goal completion not found' }
+      return { success: false, message: 'Goal completion not found.' }
     }
 
-    return { success: true, message: 'Goal completion deleted successfully' }
+    return { success: true, message: 'Goal completion deleted successfully.' }
   } catch (error) {
     console.error('Error deleting goal completion:', error)
     return {
       success: false,
-      message: 'An error occurred while deleting the goal completion',
+      message: 'An error occurred while deleting the goal completion.',
     }
   }
 }
